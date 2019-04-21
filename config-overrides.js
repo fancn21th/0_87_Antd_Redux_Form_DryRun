@@ -1,6 +1,7 @@
 const { override, fixBabelImports, addLessLoader } = require("customize-cra");
 
 module.exports = override(
+  // https://github.com/ant-design/ant-design-mobile/issues/3094
   fixBabelImports("babel-plugin-import", {
     libraryName: "antd",
     style: true
