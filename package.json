@@ -22,5 +22,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-plugin-import": "^1.11.0",
+    "react-app-rewire-less": "^2.1.3",
+    "react-app-rewired": "^2.1.1"
+  }
 }
