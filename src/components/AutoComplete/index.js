@@ -1,9 +1,10 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 import "./AutoComplete.css";
+import AutoComplete from "../../shared/AutoComplete";
 const FormItem = Form.Item;
 
-class AutoComplete extends React.Component {
+class AutoCompleteForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -14,51 +15,44 @@ class AutoComplete extends React.Component {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
+    const suppliers = [
+      {
+        id: "X001",
+        code: "X001",
+        value: "supplier name x1"
+      },
+      {
+        id: "X002",
+        code: "X002",
+        value: "supplier name x2"
+      },
+      {
+        id: "X003",
+        code: "X003",
+        value: "supplier name x3"
+      }
+    ];
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
-          {getFieldDecorator("userName", {
-            rules: [{ required: true, message: "Please input your username!" }]
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-              placeholder="Username"
-            />
-          )}
+          {getFieldDecorator("supplier", {
+            rules: [{ required: true, message: "Please select a supplier!" }]
+          })(<AutoComplete source={suppliers} />)}
         </FormItem>
         <FormItem>
-          {getFieldDecorator("password", {
-            rules: [{ required: true, message: "Please input your Password!" }]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator("remember", {
-            valuePropName: "checked",
-            initialValue: true
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
           <Button
             type="primary"
             htmlType="submit"
             className="login-form-button"
           >
-            Log in
+            Submit
           </Button>
-          Or <a href="">register now!</a>
         </FormItem>
       </Form>
     );
   }
 }
 
-const WrappedAutoComplete = Form.create()(AutoComplete);
+const WrappedAutoCompleteForm = Form.create()(AutoCompleteForm);
 
-export default WrappedAutoComplete;
+export default WrappedAutoCompleteForm;

@@ -1,6 +1,4 @@
-const initialState = {
-  suppliers: []
-};
+const initialState = [];
 
 const ACTION_HANDLERS = {
   FETCH_SUPPLIERS_SUCCESS: (state, action) => ({

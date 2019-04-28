@@ -2,28 +2,13 @@ import React from "react";
 import { AutoComplete } from "antd";
 
 const Option = AutoComplete.Option;
-
 class Complete extends React.Component {
-  state = {
-    result: []
-  };
-
-  handleSearch = value => {
-    let result;
-    if (!value || value.indexOf("@") >= 0) {
-      result = [];
-    } else {
-      result = ["gmail.com", "163.com", "qq.com"].map(
-        domain => `${value}@${domain}`
-      );
-    }
-    this.setState({ result });
-  };
+  handleSearch = value => {};
 
   render() {
-    const { result } = this.state;
-    const children = result.map(email => {
-      return <Option key={email}>{email}</Option>;
+    const { source } = this.props;
+    const children = source.map(({ code, value }) => {
+      return <Option key={code}>{value}</Option>;
     });
     return (
       <AutoComplete
