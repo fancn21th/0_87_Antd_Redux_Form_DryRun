@@ -1,7 +1,9 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Button } from "antd";
 import "./AutoComplete.css";
 import AutoComplete from "../../shared/AutoComplete";
+import fetchSuppliers from "../../actions/fetchSuppliers";
+import { connect } from "react-redux";
 const FormItem = Form.Item;
 
 class AutoCompleteForm extends React.Component {
@@ -15,29 +17,18 @@ class AutoCompleteForm extends React.Component {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const suppliers = [
-      {
-        id: "X001",
-        code: "X001",
-        value: "supplier name x1"
-      },
-      {
-        id: "X002",
-        code: "X002",
-        value: "supplier name x2"
-      },
-      {
-        id: "X003",
-        code: "X003",
-        value: "supplier name x3"
-      }
-    ];
+    const { suppliers, fetchSuppliers } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator("supplier", {
             rules: [{ required: true, message: "Please select a supplier!" }]
-          })(<AutoComplete source={suppliers} />)}
+          })(
+            <AutoComplete
+              source={suppliers}
+              onSearch={value => fetchSuppliers(value)}
+            />
+          )}
         </FormItem>
         <FormItem>
           <Button
@@ -53,6 +44,19 @@ class AutoCompleteForm extends React.Component {
   }
 }
 
-const WrappedAutoCompleteForm = Form.create()(AutoCompleteForm);
+const mapStateToProps = state => {
+  return {
+    suppliers: state.autoComplete.suppliers
+  };
+};
+
+const WrappedAutoCompleteForm = Form.create()(
+  connect(
+    mapStateToProps,
+    {
+      fetchSuppliers
+    }
+  )(AutoCompleteForm)
+);
 
 export default WrappedAutoCompleteForm;

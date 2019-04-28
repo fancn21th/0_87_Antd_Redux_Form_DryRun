@@ -1,17 +1,14 @@
-import { createStore, combineReducers } from "redux";
-import { reducer as formReducer } from "redux-form";
-
-const rootReducer = combineReducers({
-  // ...your other reducers here
-  // you have to pass formReducer under 'form' key,
-  // for custom keys look up the docs for 'getFormState'
-  form: formReducer
-});
+import { createStore, applyMiddleware } from "redux";
+import app from "./reducers";
+import thunk from "redux-thunk";
 
 const configureStore = () => {
+  const middlewares = [thunk];
   return createStore(
-    rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    app,
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(...middlewares)
   );
 };
 

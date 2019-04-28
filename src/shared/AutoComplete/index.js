@@ -3,7 +3,10 @@ import { AutoComplete } from "antd";
 
 const Option = AutoComplete.Option;
 class Complete extends React.Component {
-  handleSearch = value => {};
+  handleSearch = value => {
+    const { onSearch } = this.props;
+    onSearch(value);
+  };
 
   render() {
     const { source } = this.props;

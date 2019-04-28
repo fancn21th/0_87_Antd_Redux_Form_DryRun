@@ -1,9 +1,15 @@
-const initialState = [];
+const initialState = {
+  suppliers: []
+};
+
+const FETCH_SUPPLIERS_REQUEST = "FETCH_SUPPLIERS_REQUEST";
+const FETCH_SUPPLIERS_SUCCESS = "FETCH_SUPPLIERS_SUCCESS";
+const FETCH_SUPPLIERS_FAILURE = "FETCH_SUPPLIERS_FAILURE";
 
 const ACTION_HANDLERS = {
-  FETCH_SUPPLIERS_SUCCESS: (state, action) => ({
+  [FETCH_SUPPLIERS_SUCCESS]: (state, action) => ({
     ...state,
-    ...action.payload
+    suppliers: action.suppliers
   })
 };
 
@@ -11,3 +17,5 @@ const autoComplete = (state = initialState, action) => {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 };
+
+export default autoComplete;
