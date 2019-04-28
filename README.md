@@ -13,3 +13,7 @@
 - install redux-form
 
   - https://redux-form.com/6.8.0/docs/gettingstarted.md/
+
+## Mock Data
+
+- create a root folder named 'mock' and put a db.json file inside
