@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import AntdForm from "../AntdForm";
 import ReduxForm from "../ReduxForm";
+import AutoComplete from "../AutoComplete";
 import "./App.css";
 
 function Index() {
@@ -23,6 +24,9 @@ const App = ({ store }) => (
               <Link to="/antd-form/">Antd Form</Link>
             </li>
             <li>
+              <Link to="/auto-complete/">AutoComplete</Link>
+            </li>
+            <li>
               <Link to="/redux-form/">Redux Form</Link>
             </li>
           </ul>
@@ -32,6 +36,7 @@ const App = ({ store }) => (
           <Route path="/" exact component={Index} />
           <Route path="/antd-form/" component={AntdForm} />
           <Route path="/redux-form/" component={ReduxForm} />
+          <Route path="/auto-complete/" component={AutoComplete} />
         </div>
       </div>
     </Router>
