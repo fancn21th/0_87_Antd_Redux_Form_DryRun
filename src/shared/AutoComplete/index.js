@@ -23,27 +23,42 @@ class Complete extends React.Component {
     const { onSearch } = this.props;
     onSearch(value);
   };
-
   render() {
-    const { source, form, filedName, errorMessage, placeholder } = this.props;
-    const { getFieldDecorator } = form;
+    const {
+      source,
+      label,
+      placeholder,
+      hasFeedback,
+      labelSpan,
+      wrapperSpan,
+      input,
+      type,
+      meta: { touched, error, asyncValidating }
+    } = this.props;
     const children = source.map(({ code, value }) => {
       return <Option key={code}>{value}</Option>;
     });
-    const onDebounceSearch = debounce(this.handleSearch, 1000);
     return (
-      <FormItem>
-        {getFieldDecorator(filedName, {
-          rules: [{ required: true, message: errorMessage }]
-        })(
-          <AutoComplete
-            style={{ width: 200 }}
-            onSearch={onDebounceSearch}
-            placeholder={placeholder}
-          >
-            {children}
-          </AutoComplete>
-        )}
+      <FormItem
+        label={label}
+        help={touched && error}
+        labelCol={{ span: labelSpan === undefined ? "8" : labelSpan }}
+        wrapperCol={{ span: wrapperSpan === undefined ? "16" : wrapperSpan }}
+        hasFeedback={
+          hasFeedback === undefined || hasFeedback === true ? true : false
+        }
+        validateStatus={
+          asyncValidating ? "validating" : touched && error ? "error" : ""
+        }
+      >
+        <AutoComplete
+          {...input}
+          style={{ width: 200 }}
+          onSearch={debounce(this.handleSearch, 1000)}
+          placeholder={placeholder}
+        >
+          {children}
+        </AutoComplete>
       </FormItem>
     );
   }

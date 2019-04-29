@@ -1,29 +1,81 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 import "./ReduxForm.css";
+import fetchSuppliers from "../../actions/fetchSuppliers";
+import AutoComplete from "../../shared/AutoComplete";
 
-const ContactForm = props => {
-  const { handleSubmit } = props;
+const validate = (values, { suppliers }) => {
+  const errors = {};
+  if (!values.supplier) {
+    errors.supplier = "Supplier is required";
+  }
+  if (
+    values.supplier &&
+    suppliers.findIndex(item => item.code === values.supplier) === -1
+  ) {
+    errors.supplier = "Please select a supplier from dropdown list";
+  }
+  return errors;
+};
+
+const debounce = function(func, wait) {
+  var timeout;
+
+  return function() {
+    var context = this,
+      args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+const ReduxForm = props => {
+  const { suppliers, handleSubmit, fetchSuppliers } = props;
+
+  const onSearch = debounce(value => fetchSuppliers(value), 1000);
+
   return (
     <form onSubmit={handleSubmit} className="redux-form">
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <Field name="firstName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <Field name="lastName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="email" />
-      </div>
-      <button type="submit">Submit</button>
+      <Field
+        name="supplier"
+        type="text"
+        component={AutoComplete}
+        source={suppliers}
+        onSearch={onSearch}
+        label="Supplier"
+      />
+      <button
+        type="submit"
+        onClick={handleSubmit(data => {
+          console.log(data);
+        })}
+      >
+        Submit
+      </button>
     </form>
   );
 };
 
-export default reduxForm({
-  // a unique name for the form
-  form: "contact"
-})(ContactForm);
+const mapStateToProps = state => {
+  return {
+    suppliers: state.reduxForm.suppliers
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchSuppliers
+  }
+)(
+  reduxForm({
+    // a unique name for the form
+    form: "reduxForm",
+    validate
+  })(ReduxForm)
+);

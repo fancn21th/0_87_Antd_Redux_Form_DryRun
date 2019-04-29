@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "antd";
 import "./AutoComplete.css";
-import AutoComplete from "../../shared/AutoComplete";
+import AutoComplete from "../../shared/Legacy/AutoComplete";
 import fetchSuppliers from "../../actions/fetchSuppliers";
 import { connect } from "react-redux";
 const FormItem = Form.Item;
@@ -16,15 +16,16 @@ class AutoCompleteForm extends React.Component {
     });
   };
   render() {
-    const { suppliers, fetchSuppliers } = this.props;
+    const { suppliers, fetchSuppliers, form } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <AutoComplete
           filedName={"supplier"}
+          label={"Supplier"}
+          form={form}
           errorMessage={"Please select a supplier!"}
           source={suppliers}
           onSearch={value => fetchSuppliers(value)}
-          form={this.props.form}
           placeholder={"search supplier"}
         />
         <FormItem>
