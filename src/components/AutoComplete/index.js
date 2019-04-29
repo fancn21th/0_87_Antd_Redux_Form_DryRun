@@ -20,16 +20,14 @@ class AutoCompleteForm extends React.Component {
     const { suppliers, fetchSuppliers } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator("supplier", {
-            rules: [{ required: true, message: "Please select a supplier!" }]
-          })(
-            <AutoComplete
-              source={suppliers}
-              onSearch={value => fetchSuppliers(value)}
-            />
-          )}
-        </FormItem>
+        <AutoComplete
+          filedName={"supplier"}
+          errorMessage={"Please select a supplier!"}
+          source={suppliers}
+          onSearch={value => fetchSuppliers(value)}
+          form={this.props.form}
+          placeholder={"search supplier"}
+        />
         <FormItem>
           <Button
             type="primary"

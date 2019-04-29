@@ -1,6 +1,6 @@
 import React from "react";
-import { AutoComplete } from "antd";
-
+import { AutoComplete, Form } from "antd";
+const FormItem = Form.Item;
 const Option = AutoComplete.Option;
 
 const debounce = function(func, wait) {
@@ -25,18 +25,25 @@ class Complete extends React.Component {
   };
 
   render() {
-    const { source } = this.props;
+    const { source, form, filedName, errorMessage, placeholder } = this.props;
+    const { getFieldDecorator } = form;
     const children = source.map(({ code, value }) => {
       return <Option key={code}>{value}</Option>;
     });
     return (
-      <AutoComplete
-        style={{ width: 200 }}
-        onSearch={debounce(this.handleSearch, 1000)}
-        placeholder="input here"
-      >
-        {children}
-      </AutoComplete>
+      <FormItem>
+        {getFieldDecorator(filedName, {
+          rules: [{ required: true, message: errorMessage }]
+        })(
+          <AutoComplete
+            style={{ width: 200 }}
+            onSearch={debounce(this.handleSearch, 1000)}
+            placeholder={placeholder}
+          >
+            {children}
+          </AutoComplete>
+        )}
+      </FormItem>
     );
   }
 }
