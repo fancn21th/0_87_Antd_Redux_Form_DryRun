@@ -30,6 +30,7 @@ class Complete extends React.Component {
     const children = source.map(({ code, value }) => {
       return <Option key={code}>{value}</Option>;
     });
+    const onDebounceSearch = debounce(this.handleSearch, 1000);
     return (
       <FormItem>
         {getFieldDecorator(filedName, {
@@ -37,7 +38,7 @@ class Complete extends React.Component {
         })(
           <AutoComplete
             style={{ width: 200 }}
-            onSearch={debounce(this.handleSearch, 1000)}
+            onSearch={onDebounceSearch}
             placeholder={placeholder}
           >
             {children}

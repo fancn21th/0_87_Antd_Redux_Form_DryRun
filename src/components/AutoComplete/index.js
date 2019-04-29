@@ -16,7 +16,6 @@ class AutoCompleteForm extends React.Component {
     });
   };
   render() {
-    const { getFieldDecorator } = this.props.form;
     const { suppliers, fetchSuppliers } = this.props;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
