@@ -19,10 +19,15 @@ const debounce = function(func, wait) {
 };
 
 class Complete extends React.Component {
-  handleSearch = value => {
-    const { onSearch } = this.props;
-    onSearch(value);
-  };
+  constructor(props) {
+    super(props);
+    // the right way to use debounce with redux-form
+    // https://stackoverflow.com/questions/46997681/how-to-use-debounce-with-redux-form-correctly
+    this.debouncedOnSearch = debounce(value => {
+      const { onSearch } = props;
+      onSearch(value);
+    }, 1000);
+  }
   render() {
     const {
       source,
@@ -54,7 +59,7 @@ class Complete extends React.Component {
         <AutoComplete
           {...input}
           style={{ width: 200 }}
-          onSearch={debounce(this.handleSearch, 1000)}
+          onSearch={this.debouncedOnSearch}
           placeholder={placeholder}
         >
           {children}

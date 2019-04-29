@@ -19,25 +19,10 @@ const validate = (values, { suppliers }) => {
   return errors;
 };
 
-const debounce = function(func, wait) {
-  var timeout;
-
-  return function() {
-    var context = this,
-      args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-};
-
 const ReduxForm = props => {
   const { suppliers, handleSubmit, fetchSuppliers } = props;
 
-  const onSearch = debounce(value => fetchSuppliers(value), 1000);
+  const onSearch = value => fetchSuppliers(value);
 
   return (
     <form onSubmit={handleSubmit} className="redux-form">
